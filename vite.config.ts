@@ -10,4 +10,9 @@ export default defineConfig({
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
+  base: "/treinamentos/",
+  server: {
+    host: "0.0.0.0",
+    port: parseInt(process.env.PORT || "5173"),
+  },
 })

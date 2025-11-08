@@ -1,0 +1,839 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+}
+
+@layer components {
+  /* Progress Bar */
+  .progress-bar {
+    @apply fixed top-0 left-0 z-50 h-1;
+    background: linear-gradient(90deg, #b8864e 0%, #d4a574 100%);
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 12px rgba(184, 134, 78, 0.6);
+  }
+
+  /* Presentation Container */
+  .presentation-container {
+    @apply relative;
+    animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Slide Card */
+  .slide-card {
+    @apply absolute inset-0 transition-opacity duration-500;
+    padding: clamp(2rem, 4vw, 3.5rem);
+  }
+
+  /* Section Heading */
+  .section-heading {
+    @apply mb-6 mt-8 text-2xl font-semibold text-[#4f5bd5];
+  }
+
+  /* Slide List */
+  .slide-list {
+    @apply space-y-4 text-left;
+  }
+
+  .slide-list li {
+    @apply relative pl-8 text-base leading-relaxed text-foreground/85;
+  }
+
+  .slide-list li::before {
+    content: '▸';
+    @apply absolute left-0 top-0 text-xl font-bold text-[#b8864e];
+  }
+
+  /* Highlight Card */
+  .highlight-card {
+    @apply my-6 rounded-xl border-l-4 border-[#b8864e] bg-gradient-to-r from-[#b8864e]/15 to-[#d4a574]/10 p-6 backdrop-blur-sm;
+  }
+
+  /* Badge Demo */
+  .badge-demo {
+    @apply mt-6 inline-block rounded-full bg-green-500 px-6 py-2 text-sm font-semibold uppercase tracking-wide text-white shadow-lg;
+  }
+
+  /* Challenge Card */
+  .challenge-card {
+    @apply my-6 space-y-3 rounded-xl border-2 border-[#b8864e]/30 bg-white p-6 shadow-lg;
+  }
+
+  /* Team Cards */
+  .team-card {
+    @apply flex h-full flex-col gap-3 rounded-2xl border border-primary/20 bg-white/95 p-5 shadow-lg transition-all duration-300 hover:shadow-2xl;
+  }
+
+  .team-card__header {
+    @apply flex items-center gap-4;
+  }
+
+  .team-card__avatar {
+    @apply flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-[#b8864e] to-[#d4a574] text-2xl font-bold text-white shadow-lg;
+  }
+
+  .team-card__avatar--photo {
+    @apply overflow-hidden border-2 border-primary/30 bg-white shadow-xl;
+  }
+
+  .team-card__avatar--photo img {
+    @apply h-full w-full rounded-full object-cover;
+  }
+
+  .team-card__name {
+    @apply text-xl font-bold text-[#4f5bd5];
+  }
+
+  .team-card__role {
+    @apply text-sm font-medium text-muted-foreground;
+  }
+
+  .team-card__summary {
+    @apply text-sm leading-relaxed text-foreground/75;
+  }
+
+  .qr-card {
+    @apply flex items-center justify-center rounded-3xl border border-primary/30 bg-white/95 p-8 shadow-xl;
+  }
+
+  .qr-frame {
+    @apply rounded-2xl border-2 border-[#1f2937] bg-white p-6;
+  }
+
+  .platform-card {
+    @apply flex h-full flex-col gap-4 rounded-3xl border border-primary/20 bg-white/95 p-6 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl;
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+      transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .platform-card[data-visible="true"] {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .platform-card__icon {
+    @apply flex h-20 w-20 items-center justify-center rounded-2xl border border-primary/20 bg-primary/5 p-4;
+}
+
+  .platform-card__icon img {
+    @apply h-full w-full object-contain;
+  }
+
+  .platform-card__title {
+    @apply text-2xl font-semibold text-[#4f5bd5];
+  }
+
+  .platform-card__subtitle {
+    @apply text-sm font-medium text-primary/90;
+  }
+
+  .platform-card__description {
+    @apply text-sm leading-relaxed text-foreground/80;
+  }
+
+  .platform-card__body {
+    @apply space-y-3;
+  }
+
+  .platform-card__cta {
+    @apply self-start border-primary/30 text-primary hover:bg-primary/10;
+  }
+
+  .workflow-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 1.5rem;
+    align-items: stretch;
+  }
+
+  .workflow-stage {
+    position: relative;
+    display: grid;
+    gap: 1rem;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+    border: 1px solid rgba(184, 134, 78, 0.25);
+    border-radius: 1.5rem;
+    padding: 1.5rem;
+    box-shadow: 0 14px 38px rgba(15, 23, 42, 0.28);
+    overflow: hidden;
+  }
+
+  .workflow-stage::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(140px 120px at 100% 0%, rgba(122, 250, 193, 0.12), transparent 60%);
+  }
+
+  .workflow-tag {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .workflow-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #f6f7ff;
+  }
+
+  .workflow-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .workflow-chip {
+    border: 1px solid rgba(184, 134, 78, 0.35);
+    border-radius: 999px;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    color: rgba(33, 41, 54, 0.85);
+    background: rgba(184, 134, 78, 0.14);
+  }
+
+  .workflow-cards {
+    display: grid;
+    gap: 0.75rem;
+    position: relative;
+    z-index: 1;
+}
+
+  .workflow-card {
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(184, 134, 78, 0.2);
+    border-radius: 1rem;
+    padding: 0.9rem 1rem;
+    font-size: 0.85rem;
+    color: rgba(33, 41, 54, 0.88);
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+      transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .workflow-card[data-visible="true"] {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .workflow-card h4 {
+    margin: 0 0 0.5rem;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: rgba(79, 91, 213, 0.95);
+  }
+
+  .workflow-card ul {
+  margin: 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .workflow-card p {
+    margin: 0.3rem 0;
+  }
+
+  .workflow-kpis {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .workflow-kpi {
+    text-align: center;
+    border: 1px dashed rgba(184, 134, 78, 0.35);
+    border-radius: 1rem;
+    padding: 0.75rem 0.5rem;
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .workflow-kpi .value {
+    font-weight: 700;
+    font-size: 1rem;
+    color: #f4b23c;
+  }
+
+  .workflow-kpi .label {
+    font-size: 0.75rem;
+    color: rgba(231, 236, 255, 0.65);
+  }
+
+  .workflow-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .workflow-accordion {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .workflow-details {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(184, 134, 78, 0.25);
+    border-radius: 0.9rem;
+    padding: 0.85rem 1rem;
+  }
+
+  .workflow-details summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: #f6f7ff;
+    list-style: none;
+  }
+
+  .workflow-details summary::marker,
+  .workflow-details summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .workflow-details ul {
+    margin: 0.6rem 0 0;
+    padding-left: 1.1rem;
+    font-size: 0.85rem;
+    color: rgba(231, 236, 255, 0.85);
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .workflow-raci {
+    border: 1px solid rgba(184, 134, 78, 0.3);
+    border-radius: 1rem;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .workflow-raci table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+
+  .workflow-raci th,
+  .workflow-raci td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba(184, 134, 78, 0.2);
+    text-align: left;
+    color: rgba(231, 236, 255, 0.85);
+  }
+
+  .workflow-raci thead th {
+    background: rgba(122, 250, 193, 0.08);
+    color: rgba(106, 161, 255, 0.9);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .workflow-raci tbody tr:nth-child(even) td {
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .qr-frame svg {
+    display: block;
+    height: auto !important;
+    width: 100% !important;
+  }
+
+  .workflow-single {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .workflow-single__chips {
+  display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
+
+  .workflow-single__cards {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+
+  .workflow-single__kpis {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.85rem;
+  }
+
+  .desafio-grid {
+    display: grid;
+    gap: 1.5rem;
+    align-items: start;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .desafio-qr {
+    display: grid;
+    gap: 0.75rem;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .desafio-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(184, 134, 78, 0.35);
+    background: rgba(184, 134, 78, 0.12);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: rgba(79, 91, 213, 0.95);
+  }
+
+  .fundamentals-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+  .fundamentals-card {
+    display: grid;
+    gap: 1rem;
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(184, 134, 78, 0.25);
+    border-radius: 1.5rem;
+    padding: 1.75rem;
+    box-shadow: 0 18px 46px rgba(15, 23, 42, 0.18);
+    color: hsl(var(--foreground));
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+      transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .fundamentals-card[data-visible="true"] {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+.miniconsultoria-grid[data-visible="true"] .mini-metric-card,
+.miniconsultoria-grid[data-visible="true"] .mini-timeline > div,
+.miniconsultoria-grid[data-visible="true"] .mini-benefits,
+.ia-summary-card[data-visible="true"],
+.workflow-card[data-visible="true"],
+.platform-card[data-visible="true"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+  .fundamentals-card h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: hsl(var(--foreground));
+  }
+
+  .fundamentals-card ul {
+    margin: 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    color: rgba(33, 41, 54, 0.82);
+  }
+
+  .fundamentals-card__footer {
+    display: grid;
+    gap: 0.35rem;
+    border-left: 4px solid rgba(184, 134, 78, 0.55);
+    padding-left: 1rem;
+    background: rgba(184, 134, 78, 0.08);
+    border-radius: 0.75rem;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+
+  .fundamentals-card__footer .label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(79, 91, 213, 0.9);
+  }
+
+  .fundamentals-card__footer p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: rgba(33, 41, 54, 0.8);
+  }
+
+  .miniconsultoria-grid {
+    display: grid;
+    gap: 1.5rem;
+    align-items: start;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .mini-stats {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+.mini-metric-card,
+.mini-timeline > div,
+.mini-benefits {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(184, 134, 78, 0.35);
+    border-radius: 1rem;
+    padding: 1rem;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.15);
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .mini-metric-card h4 {
+    margin: 0 0 0.35rem;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(79, 91, 213, 0.95);
+}
+
+  .mini-metric-card p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: rgba(33, 41, 54, 0.75);
+  }
+
+  .mini-timeline {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .mini-timeline > div {
+    background: rgba(79, 91, 213, 0.08);
+    border: 1px solid rgba(79, 91, 213, 0.2);
+    border-radius: 0.9rem;
+    padding: 0.9rem;
+    display: grid;
+    gap: 0.4rem;
+    text-align: center;
+  }
+
+  .mini-timeline .dot {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 999px;
+    background: rgba(79, 91, 213, 0.9);
+    color: white;
+    font-weight: 700;
+    margin: 0 auto;
+  }
+
+  .mini-timeline p {
+    margin: 0;
+    font-size: 0.8rem;
+    color: rgba(33, 41, 54, 0.8);
+}
+
+  .mini-benefits {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .ia-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+
+  .ia-summary-card {
+    display: grid;
+    gap: 0.9rem;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(246, 247, 255, 0.98));
+    border: 1px solid rgba(184, 134, 78, 0.25);
+    border-radius: 1.5rem;
+    padding: 1.75rem;
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.16);
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+      transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .ia-summary-card[data-visible="true"] {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .ia-summary-card h3 {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: hsl(var(--foreground));
+  }
+
+  .ia-summary-card ul {
+    margin: 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: 0.45rem;
+    font-size: 0.92rem;
+    color: rgba(33, 41, 54, 0.78);
+  }
+
+  .ia-summary-marker {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.9rem;
+    background: rgba(79, 91, 213, 0.12);
+    color: rgba(79, 91, 213, 0.95);
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+}
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  /* Custom Scrollbar */
+  .presentation-container::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  .presentation-container::-webkit-scrollbar-track {
+    @apply bg-white/5;
+  }
+
+  .presentation-container::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-[#b8864e]/50;
+  }
+
+  .presentation-container::-webkit-scrollbar-thumb:hover {
+    @apply bg-[#b8864e]/70;
+  }
+}
+
+/* Custom Color Variables for Tailwind */
+:root {
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+  --primary: 30 45% 48%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: 210 40% 96.1%;
+  --accent-foreground: 222.2 47.4% 11.2%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 30 45% 48%;
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+  --popover: 222.2 84% 4.9%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 30 45% 48%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --accent: 217.2 32.6% 17.5%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 30 45% 48%;
+  }
+
+@media (max-width: 1024px) {
+  .workflow-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .workflow-arrow {
+    display: none;
+  }
+
+  .fundamentals-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ia-summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .workflow-single__kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .desafio-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .slide-card {
+    @apply px-4;
+    padding-top: clamp(1.5rem, 3vw, 2.5rem);
+    padding-bottom: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .section-heading {
+    @apply text-xl;
+  }
+
+  .slide-list li {
+    @apply text-sm;
+  }
+
+  .team-card {
+    @apply p-4;
+  }
+
+  .team-card__avatar {
+    @apply h-12 w-12 text-lg;
+  }
+
+  .team-card__name {
+    @apply text-lg;
+  }
+
+  .workflow-stage {
+    padding: 1.25rem;
+  }
+
+  .workflow-kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .fundamentals-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ia-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .workflow-single__kpis {
+    grid-template-columns: 1fr;
+  }
+
+  .workflow-single__cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .progress-bar,
+  footer,
+  header {
+    @apply hidden;
+  }
+
+  .slide-card {
+    @apply break-after-page;
+  }
+}
+
+  .mini-video {
+    display: grid;
+    gap: 0.5rem;
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(79, 91, 213, 0.35);
+    border-radius: 1.25rem;
+    padding: 1rem;
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.25);
+  }
+
+  .mini-video__preview {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%;
+    border-radius: 0.85rem;
+    overflow: hidden;
+    box-shadow: inset 0 0 40px rgba(10, 16, 30, 0.45);
+  }
+
+  .mini-video__preview iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .mini-video__caption {
+    margin: 0;
+    font-size: 0.82rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(193, 206, 255, 0.85);
+    text-align: center;
+  }
